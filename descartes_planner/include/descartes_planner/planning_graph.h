@@ -120,6 +120,9 @@ public:
   //bool GetShortestPathJointToCartesian(int startIndex, int endIndex, double &cost, std::vector<descartes_core::TrajectoryPt> &path);
   //bool GetShortestPathCartesianToCartesian(int startIndex, int endIndex, double &cost, std::vector<descartes_core::TrajectoryPt> &path);
 
+  // DTC
+  //void getVertexData(JointGraph::vertex_descriptor jv) const;
+
   /**@brief Utility function for printing the graph to the console
    * NOTE: should add other formats for output
    */

@@ -37,7 +37,7 @@ static void unpackTolerancedJoints(const std::vector<descartes_trajectory::Toler
   lower.reserve(tolerances.size());
   nominal.reserve(tolerances.size());
   upper.reserve(tolerances.size());
-  
+
   for (std::size_t i = 0; i < tolerances.size(); ++i)
   {
     lower.push_back(tolerances[i].lower);
@@ -52,7 +52,7 @@ namespace descartes_trajectory
 {
 
 JointTrajectoryPt::JointTrajectoryPt(const descartes_core::TimingConstraint& timing)
-  : descartes_core::TrajectoryPt(timing) 
+  : descartes_core::TrajectoryPt(timing)
   , tool_(Eigen::Affine3d::Identity())
   , wobj_(Eigen::Affine3d::Identity())
 {}
@@ -67,7 +67,7 @@ JointTrajectoryPt::JointTrajectoryPt(const std::vector<TolerancedJointValue> &jo
   unpackTolerancedJoints(joints, lower_, nominal_, upper_);
 }
 
-JointTrajectoryPt::JointTrajectoryPt(const std::vector<TolerancedJointValue> &joints, 
+JointTrajectoryPt::JointTrajectoryPt(const std::vector<TolerancedJointValue> &joints,
                                      const descartes_core::TimingConstraint& timing)
   : descartes_core::TrajectoryPt(timing)
   , tool_(Eigen::Affine3d::Identity())

@@ -2,7 +2,7 @@
  * path_planner_base.h
  *
  *  Created on: Jan 19, 2015
- *      Author: ros developer 
+ *      Author: ros developer
  */
 
 #ifndef DESCARTES_CORE_PATH_PLANNER_BASE_H_
@@ -49,7 +49,6 @@ public:
   /**
    * @brief Plans a path for the given robot model and configuration parameters.
    * @param model robot model implementation for which to plan a path
-   * @param config A map containing the parameter/value pairs.
    */
   virtual bool initialize(RobotModelConstPtr model) = 0;
 

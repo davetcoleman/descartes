@@ -281,8 +281,8 @@ bool PlanningGraph::addTrajectory(TrajectoryPtPtr point, TrajectoryPt::ID previo
   populateGraphEdges(edges);
 
   // DEBUG LOGS
-//  printGraph();
-//  printMaps();
+  //printGraph();
+  //printMaps();
 
   //CartesianMap test_map = getCartesianMap();
 
