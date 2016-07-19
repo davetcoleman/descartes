@@ -114,6 +114,13 @@ struct ToleranceBase
   }
 
   double x_upper, y_upper, z_upper, x_lower, y_lower, z_lower;
+
+  void print()
+  {
+    std::cout << "x_upper: " << x_upper << " - x_lower: " << x_lower << std::endl;
+    std::cout << "y_upper: " << y_upper << " - y_lower: " << y_lower << std::endl;
+    std::cout << "z_upper: " << z_upper << " - z_lower: " << z_lower << std::endl;
+  }
 };
 
 /**@brief Description of a per-cartesian-axis linear tolerance on position
@@ -309,7 +316,6 @@ public:
     wobj_pt_ = pt;
   }
 
-protected:
   bool computeCartesianPoses(EigenSTL::vector_Affine3d &poses) const;
 
 protected:

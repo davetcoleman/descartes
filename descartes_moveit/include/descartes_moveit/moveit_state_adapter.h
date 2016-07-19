@@ -61,6 +61,10 @@ public:
 
   virtual bool isValidMove(const std::vector<double> &from_joint_pose, const std::vector<double> &to_joint_pose,
                            double dt) const;
+
+  virtual bool isValidMove(const double* from_joint_pose, const double* to_joint_pose, std::size_t array_size,
+                           double dt) const;
+
   /**
    * @brief Set the initial states used for iterative inverse kineamtics
    * @param seeds Vector of vector of doubles representing joint positions.

@@ -324,6 +324,22 @@ bool MoveitStateAdapter::isValidMove(const std::vector<double>& from_joint_pose,
   return true;
 }
 
+bool MoveitStateAdapter::isValidMove(const double* from_joint_pose, const double* to_joint_pose, std::size_t array_size,
+                                     double dt) const
+{
+  for (std::size_t i = 0; i < array_size; ++i)
+  {
+    double dtheta = std::abs(from_joint_pose[i] - to_joint_pose[i]);
+    double max_dtheta = dt * velocity_limits_[i];
+    // std::cout << "isValidMove i: " << i << " from_joint_pose[i]: " << from_joint_pose[i] << " to_joint_pose[i]: "
+    //           << to_joint_pose[i] << " dtheta: " << dtheta << " max_dtheta: " << max_dtheta << std::endl;
+    if (dtheta > max_dtheta)
+      return false;
+  }
+
+  return true;
+}
+
 void MoveitStateAdapter::setState(const moveit::core::RobotState& state)
 {
   ROS_ASSERT_MSG(static_cast<bool>(robot_state_), "'robot_state_' member pointer is null. Have you called "

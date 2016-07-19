@@ -41,6 +41,7 @@ using namespace descartes_core;
 
 namespace descartes_trajectory
 {
+
 EigenSTL::vector_Affine3d uniform(const TolerancedFrame &frame, const double orient_increment,
                                   const double pos_increment)
 {
@@ -49,7 +50,6 @@ EigenSTL::vector_Affine3d uniform(const TolerancedFrame &frame, const double ori
   if (pos_increment < 0.0 || orient_increment < 0.0)
   {
     ROS_WARN_STREAM("Negative position/orientation intcrement: " << pos_increment << "/" << orient_increment);
-    rtn.clear();
     return rtn;
   }
 
@@ -116,7 +116,7 @@ EigenSTL::vector_Affine3d uniform(const TolerancedFrame &frame, const double ori
                                 Eigen::AngleAxisd(ry, Eigen::Vector3d::UnitY()) *
                                 Eigen::AngleAxisd(rz, Eigen::Vector3d::UnitZ());*/
               sampled_frame =
-                  descartes_core::utils::toFrame(tx, ty, tz, rx, ry, rz, descartes_core::utils::EulerConventions::XYZ);
+                descartes_core::utils::toFrame(tx, ty, tz, rx, ry, rz, descartes_core::utils::EulerConventions::XYZ);
               rtn.push_back(sampled_frame);
             }
           }
@@ -185,6 +185,7 @@ CartTrajectoryPt::CartTrajectoryPt(const TolerancedFrame &wobj_pt, double pos_in
   , pos_increment_(pos_increment)
   , orient_increment_(orient_increment)
 {
+  wobj_pt_.orientation_tolerance.print();
 }
 
 CartTrajectoryPt::CartTrajectoryPt(const Frame &wobj_pt, const descartes_core::TimingConstraint &timing)
@@ -212,6 +213,14 @@ bool CartTrajectoryPt::getNominalCartPose(const std::vector<double> &seed_state,
   return true;  // TODO can this ever return false?
 }
 
+void printTransformRPY(const Eigen::Affine3d &transform)
+{
+  // R-P-Y / X-Y-Z / 0-1-2 Euler Angle Standard
+  Eigen::Vector3d vec = transform.rotation().eulerAngles(0, 1, 2);
+  std::cout << "transform: [" << transform.translation().x() << ", " << transform.translation().y() << ", " << transform.translation().z()
+            << ", " << vec[0] << ", " << vec[1] << ", " << vec[2] << "]\n";
+}
+
 bool CartTrajectoryPt::computeCartesianPoses(EigenSTL::vector_Affine3d &poses) const
 {
   EigenSTL::vector_Affine3d sampled_wobj_pts = uniform(wobj_pt_, orient_increment_, pos_increment_);
@@ -223,8 +232,10 @@ bool CartTrajectoryPt::computeCartesianPoses(EigenSTL::vector_Affine3d &poses) c
   {
     for (size_t tool_pt = 0; tool_pt < sampled_tool_pts.size(); ++tool_pt)
     {
+      printTransformRPY(sampled_wobj_pts[wobj_pt]);
       Eigen::Affine3d pose =
           wobj_base_.frame * sampled_wobj_pts[wobj_pt] * sampled_tool_pts[tool_pt].inverse() * tool_base_.frame_inv;
+      printTransformRPY(pose);
 
       poses.push_back(pose);
     }
@@ -376,7 +387,7 @@ void CartTrajectoryPt::getJointPoses(const RobotModel &model, std::vector<std::v
   EigenSTL::vector_Affine3d poses;
   if (computeCartesianPoses(poses))
   {
-    poses.reserve(poses.size());
+    joint_poses.reserve(poses.size());
     for (const auto &pose : poses)
     {
       std::vector<std::vector<double> > local_joint_poses;

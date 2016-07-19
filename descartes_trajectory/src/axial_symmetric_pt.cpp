@@ -11,10 +11,15 @@ static TolerancedFrame makeUnconstrainedRotation(double x, double y, double z, d
 
   Eigen::Affine3d pose = toFrame(x, y, z, rx, ry, rz, EulerConventions::XYZ);
   PositionTolerance pos_tol = ToleranceBase::zeroTolerance<PositionTolerance>(x, y, z);
+  // clang-format off
   OrientationTolerance orient_tol = ToleranceBase::createSymmetric<OrientationTolerance>(
-      ((axis == AxialSymmetricPt::X_AXIS) ? 0.0 : rx), ((axis == AxialSymmetricPt::Y_AXIS) ? 0.0 : ry),
-      ((axis == AxialSymmetricPt::Z_AXIS) ? 0.0 : rz), ((axis == AxialSymmetricPt::X_AXIS) ? 2 * M_PI : 0.0),
-      ((axis == AxialSymmetricPt::Y_AXIS) ? 2 * M_PI : 0.0), ((axis == AxialSymmetricPt::Z_AXIS) ? 2 * M_PI : 0.0));
+      ((axis == AxialSymmetricPt::X_AXIS) ? 0.0 : rx),
+      ((axis == AxialSymmetricPt::Y_AXIS) ? 0.0 : ry),
+      ((axis == AxialSymmetricPt::Z_AXIS) ? 0.0 : rz),
+      ((axis == AxialSymmetricPt::X_AXIS) ? 2 * M_PI : 0.0),
+      ((axis == AxialSymmetricPt::Y_AXIS) ? 2 * M_PI : 0.0),
+      ((axis == AxialSymmetricPt::Z_AXIS) ? 2 * M_PI : 0.0));
+  // clang-format on
   return TolerancedFrame(pose, pos_tol, orient_tol);
 }
 
@@ -31,10 +36,15 @@ static TolerancedFrame makeUnconstrainedRotation(const Eigen::Affine3d& pose, Ax
   double z = pose.translation()(2);
 
   PositionTolerance pos_tol = ToleranceBase::zeroTolerance<PositionTolerance>(x, y, z);
+  // clang-format off
   OrientationTolerance orient_tol = ToleranceBase::createSymmetric<OrientationTolerance>(
-      ((axis == AxialSymmetricPt::X_AXIS) ? 0.0 : rx), ((axis == AxialSymmetricPt::Y_AXIS) ? 0.0 : ry),
-      ((axis == AxialSymmetricPt::Z_AXIS) ? 0.0 : rz), ((axis == AxialSymmetricPt::X_AXIS) ? 2 * M_PI : 0.0),
-      ((axis == AxialSymmetricPt::Y_AXIS) ? 2 * M_PI : 0.0), ((axis == AxialSymmetricPt::Z_AXIS) ? 2 * M_PI : 0.0));
+      ((axis == AxialSymmetricPt::X_AXIS) ? 0.0 : rx),
+      ((axis == AxialSymmetricPt::Y_AXIS) ? 0.0 : ry),
+      ((axis == AxialSymmetricPt::Z_AXIS) ? 0.0 : rz),
+      ((axis == AxialSymmetricPt::X_AXIS) ? 2 * M_PI : 0.0),
+      ((axis == AxialSymmetricPt::Y_AXIS) ? 2 * M_PI : 0.0),
+      ((axis == AxialSymmetricPt::Z_AXIS) ? 2 * M_PI : 0.0));
+  // clang-format on
   return TolerancedFrame(pose, pos_tol, orient_tol);
 }
 
